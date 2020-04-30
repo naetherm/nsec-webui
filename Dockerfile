@@ -21,6 +21,9 @@ RUN /usr/sbin/install_nodes.sh
 COPY . /var/www
 WORKDIR /var/www
 
+RUN composer update --no-interaction --ansi
+RUN composer install --no-interaction --ansi
+
 EXPOSE 8000
 
 CMD php artisan serve --host 0.0.0.0
