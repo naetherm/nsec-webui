@@ -21,6 +21,8 @@ RUN /usr/sbin/install_nodes.sh
 COPY . /var/www
 WORKDIR /var/www
 
+RUN mkdir -p storage/framework
+RUN mkdir storage/framework/sessions storage/framework/views storage/framework/cache
 RUN composer update --no-interaction --ansi
 RUN composer install --no-interaction --ansi
 
