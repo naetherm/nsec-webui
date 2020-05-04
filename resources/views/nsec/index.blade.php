@@ -101,7 +101,7 @@
         });
         setInterval(function() {
             $(document).ready(function() {
-                const Url ='http://0.0.0.0:9875/is_healthy';
+                const Url ='http://nsec:9876/is_healthy';
                 $.ajax({
                     url: Url,
                     dataType: 'json',

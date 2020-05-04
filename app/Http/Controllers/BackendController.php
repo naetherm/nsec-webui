@@ -12,7 +12,7 @@ class BackendController extends Controller
 
 
     public function postRequest(Request $request) {
-        $response = Http::post('nsec:9875/', [
+        $response = Http::post('nsec:9876/', [
             'text' => $request->input('content'),
             'detector' => $request->input('detection'),
             'suggestor' => $request->input('suggestion'),
@@ -23,7 +23,7 @@ class BackendController extends Controller
     }
     public function getRequest() {
         $client = new Client();
-        $request = $client->get('nsec:9875/');
+        $request = $client->get('nsec:9876/');
         $response = $request->getBody()->getContents();
         echo '<pre>';
         print_r($response);
@@ -31,7 +31,7 @@ class BackendController extends Controller
     }
 
     public function postBenchmarkRequest(Request $request) {
-        $response = Http::post('nsec:9875/bench', [
+        $response = Http::post('nsec:9876/bench', [
             'benchmark' => $request->input('benchmark')
         ]);
 
