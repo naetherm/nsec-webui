@@ -101,7 +101,7 @@
         });
         setInterval(function() {
             $(document).ready(function() {
-                const Url ='http://nsec:9876/is_healthy';
+                const Url ='http://0.0.0.0:9876/is_healthy';
                 $.ajax({
                     url: Url,
                     dataType: 'json',
@@ -173,6 +173,9 @@
                         $.each(tokens, function(ridx, tv) {
                             if (ridx == 0) {
                                 text += temp.substring(0, tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> ";
+                                if (tokens.length == 1) {
+                                    text += temp.substring(tv["pos"]+tv["length"], temp.length);
+                                }
                             } else if (ridx == (n - 1)) {
                                 text += temp.substring(tokens[ridx-1]["pos"]+tokens[ridx-1]["length"], tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> " + temp.substring(tv["pos"]+tv["length"], temp.length);
                             } else {
