@@ -21,6 +21,7 @@
                 <div class="col-md-4">
                     <select id="benchmark" name="benchmarketection" class="form-control form-control-xs">
                         <option value="demo">Demo</option>
+                        <option value="en_tiny">Tiny English</option>
                     </select>
                 </div>
             </div>
