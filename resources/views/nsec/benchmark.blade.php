@@ -92,10 +92,10 @@
                     //console.log("Received the following text:");
                     //console.log(result["text"]);
                     $('#correct_tokens')
-                        .val((result["results"]["correct_tokens"] / result["results"]["num_tokens"])*100)
+                        .val(result["results"]["token_accuracy"])
                         .trigger('change');
                     $('#correct_sentences')
-                        .val(result["results"]["sentence_accuracy"]*100)
+                        .val(result["results"]["sentence_accuracy"])
                         .trigger('change');
                 })
         });
