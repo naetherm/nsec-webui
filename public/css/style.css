@@ -2087,10 +2087,17 @@ mark.legend {
 
 .col-4 {
     width: 33.33333333%;
+    float: left;
 }
 .col-3 {
     width: 25%;
+    float: left;
 }
 .col-2 {
     width: 12.8%;
+    float: left;
+}
+
+.row:after {
+    clear: both;
 }
