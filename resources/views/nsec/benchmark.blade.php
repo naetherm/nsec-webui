@@ -47,12 +47,12 @@
     </div>
 
     <div class="container result-container">
-        <div class="row float-left">
-            <div class="col-md-2">
+        <div class="row">
+            <div class="col-2">
                 <input type="text" value="0" data-width="75" readonly="readonly" id="correct_sentences">
                 <div class="knob-label">Correct Sentences (%)</div>
             </div>
-            <div class="col-md-2">
+            <div class="col-2">
                 <input type="text" value="0" data-width="75" readonly="readonly" id="correct_tokens">
                 <div class="knob-label">Correct Tokens (%)</div>
             </div>

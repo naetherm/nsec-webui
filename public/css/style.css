@@ -2081,3 +2081,16 @@ mark.legend {
     vertical-align: baseline;
     border-radius: .25rem;
 }
+
+
+
+
+.col-4 {
+    width: 33.33333333%;
+}
+.col-3 {
+    width: 25%;
+}
+.col-2 {
+    width: 12.8%;
+}
