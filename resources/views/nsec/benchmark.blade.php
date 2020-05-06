@@ -90,7 +90,7 @@
                     //console.log("Received the following text:");
                     //console.log(result["text"]);
                     $('#correct_tokens')
-                        .val(result["results"]["correct_tokens"] / result["results"]["num_tokens"])
+                        .val((result["results"]["correct_tokens"] / result["results"]["num_tokens"])*100)
                         .trigger('change');
                 })
         });
