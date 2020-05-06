@@ -47,10 +47,20 @@
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                Correct Tokens <br/>
+                <input type="text" value="0" id="correct_tokens">
+            </div>
+        </div>
+    </div>
 @endsection()
 
 @section('extra_js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="{{ asset('jquery-knob/jquery.knob.min.js') }}"></script>
     <script type="text/javascript">
         $("#bench").click(function(e) {
             var editor_content = {
@@ -73,8 +83,11 @@
                     $("#progress_modal").fadeOut('fast');
                     $("#content-container").removeClass("background-blur", 500);
                     // Update timings
-                    console.log("Received the following text:");
-                    console.log(result["text"]);
+                    //console.log("Received the following text:");
+                    //console.log(result["text"]);
+                    $('.dial')
+                        .val(result["results"]["correct_tokens"] / result["results"]["num_tokens"])
+                        .trigger('change');
                 })
         });
     </script>
