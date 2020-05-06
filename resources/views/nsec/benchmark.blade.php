@@ -57,6 +57,9 @@
                 <div class="knob-label">Correct Tokens (%)</div>
             </div>
         </div>
+        <div id="erroneous_sentences" class="row">
+
+        </div>
     </div>
 @endsection()
 
@@ -97,6 +100,16 @@
                     $('#correct_sentences')
                         .val(result["results"]["sentence_accuracy"])
                         .trigger('change');
+
+                    // Write all grt <-> prediction pairs to erroneous_sentences
+                    var grt_prd_pairs = "";
+                    $.each(result["articles"], function(aidx, article) {
+                        $.each(article["sentences"], function(sidx, sentence) {
+                            grt_prd_pairs += "<p><b>" + sentence["groundtruth"] + "</b></p><br/>";
+                            grt_prd_pairs += "<p><i>" + sentence["prediction"]["text"] + "</i></p><br/>";
+                        })
+                    })
+                    $("#erroneous_sentences").html(grt_prd_pairs);
                 })
         });
     </script>
