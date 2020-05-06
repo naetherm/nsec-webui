@@ -85,7 +85,7 @@
                     // Update timings
                     //console.log("Received the following text:");
                     //console.log(result["text"]);
-                    $('.dial')
+                    $('#correct_tokens')
                         .val(result["results"]["correct_tokens"] / result["results"]["num_tokens"])
                         .trigger('change');
                 })
