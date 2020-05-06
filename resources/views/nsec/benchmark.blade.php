@@ -1,5 +1,15 @@
 @extends('layouts.layout')
 
+@section('modal')
+    <div id="progress_modal" class="circular-modal" hidden>
+        <div class="circle"></div>
+        <div class="circle-small"></div>
+        <div class="circle-big"></div>
+        <div class="circle-inner-inner"></div>
+        <div class="circle-inner"></div>
+    </div>
+@endsection()
+
 @section('featured')
     <div class="container">
         <div class="hero-inner">
@@ -46,6 +56,9 @@
             var editor_content = {
                 'benchmark': $('#benchmark').val(),
             };
+            // Show modal
+            $("#progress_modal").fadeIn('slow');
+            $("#content-container").addClass("background-blur", 500);
 
             $.ajax({
                 url: 'postBenchmark',
@@ -56,6 +69,9 @@
             })
                 .done(function(result){     // on success get the return object from server
                     console.log(result)     // do whatever with it. In this case see it in console
+                    // Remove modal again
+                    $("#progress_modal").fadeOut('fast');
+                    $("#content-container").removeClass("background-blur", 500);
                     // Update timings
                     console.log("Received the following text:");
                     console.log(result["text"]);
