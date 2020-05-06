@@ -46,19 +46,21 @@
         </div>
     </div>
 
-    <div class="container result-container">
-        <div class="row">
-            <div class="col-2">
-                <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_sentences">
-                <div class="knob-label">Correct Sentences (%)</div>
-            </div>
-            <div class="col-2">
-                <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_tokens">
-                <div class="knob-label">Correct Tokens (%)</div>
+    <div class="result-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_sentences">
+                    <div class="knob-label">Correct Sentences (%)</div>
+                </div>
+                <div class="col-2">
+                    <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_tokens">
+                    <div class="knob-label">Correct Tokens (%)</div>
+                </div>
             </div>
         </div>
-        <div id="erroneous_sentences" class="row">
-
+        <div class="container">
+            <div id="erroneous_sentences" class="row"></div>
         </div>
     </div>
 @endsection()
@@ -105,8 +107,8 @@
                     var grt_prd_pairs = "";
                     $.each(result["articles"], function(aidx, article) {
                         $.each(article["sentences"], function(sidx, sentence) {
-                            grt_prd_pairs += "<p><b>" + sentence["groundtruth"] + "</b></p><br/>";
-                            grt_prd_pairs += "<p><i>" + sentence["prediction"]["text"] + "</i></p><br/>";
+                            grt_prd_pairs += "<p class=\"result\"><b>" + sentence["groundtruth"] + "</b></p><br/>";
+                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["prediction"]["text"] + "</i></p><br/>";
                         })
                     })
                     $("#erroneous_sentences").html(grt_prd_pairs);
