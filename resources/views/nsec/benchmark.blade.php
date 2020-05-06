@@ -49,11 +49,11 @@
     <div class="container result-container">
         <div class="row">
             <div class="col-2">
-                <input type="text" value="0" data-width="75" readonly="readonly" id="correct_sentences">
+                <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_sentences">
                 <div class="knob-label">Correct Sentences (%)</div>
             </div>
             <div class="col-2">
-                <input type="text" value="0" data-width="75" readonly="readonly" id="correct_tokens">
+                <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_tokens">
                 <div class="knob-label">Correct Tokens (%)</div>
             </div>
         </div>
