@@ -62,6 +62,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="{{ asset('jquery-knob/jquery.knob.min.js') }}"></script>
     <script type="text/javascript">
+        $("#correct_tokens").knob({
+            'min':0,
+            'max':100
+        });
         $("#bench").click(function(e) {
             var editor_content = {
                 'benchmark': $('#benchmark').val(),
