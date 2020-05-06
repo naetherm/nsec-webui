@@ -37,8 +37,6 @@
             </div>
         </div>
     </div>
-    <div class="container">
-
 
     <div class="container">
         <div class="row float-right">
@@ -48,11 +46,15 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                Correct Tokens <br/>
+    <div class="container result-container">
+        <div class="row float-left">
+            <div class="col-md-2">
+                <input type="text" value="0" id="correct_sentences">
+                <div class="knob-label">Correct Sentences (%)</div>
+            </div>
+            <div class="col-md-2">
                 <input type="text" value="0" id="correct_tokens">
+                <div class="knob-label">Correct Tokens (%)</div>
             </div>
         </div>
     </div>
@@ -62,10 +64,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="{{ asset('jquery-knob/jquery.knob.min.js') }}"></script>
     <script type="text/javascript">
-        $("#correct_tokens").knob({
-            'min':0,
-            'max':100
-        });
+        $(".result-container").fadeOut('fast');
+        $("#correct_tokens").knob({'min':0, 'max':100});
+        $("#correct_sentences").knob({'min':0, 'max':100});
         $("#bench").click(function(e) {
             var editor_content = {
                 'benchmark': $('#benchmark').val(),
@@ -85,12 +86,16 @@
                     console.log(result)     // do whatever with it. In this case see it in console
                     // Remove modal again
                     $("#progress_modal").fadeOut('fast');
+                    $(".result-container").fadeIn('slow');
                     $("#content-container").removeClass("background-blur", 500);
                     // Update timings
                     //console.log("Received the following text:");
                     //console.log(result["text"]);
                     $('#correct_tokens')
                         .val((result["results"]["correct_tokens"] / result["results"]["num_tokens"])*100)
+                        .trigger('change');
+                    $('#correct_sentences')
+                        .val(result["results"]["sentence_accuracy"]*100)
                         .trigger('change');
                 })
         });
