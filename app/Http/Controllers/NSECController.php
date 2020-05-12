@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Response;
 
 class NSECController extends Controller
 {
@@ -26,5 +27,9 @@ class NSECController extends Controller
 
     public function benchmark() {
         return view('nsec.benchmark');
+    }
+
+    public function addResults() {
+        Response::json(Input::get('results'));;
     }
 }
