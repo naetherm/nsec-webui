@@ -164,10 +164,10 @@
 
                     $.each (result["sequences"], function(index, value) {
                         var temp = value["text"];
-                        var tokens = [];
-                        $.each(value["ranking"][0]["info"], function(tidx, tv) {
-                            tokens.push(tv);
-                        });
+                        var tokens = value["ranking"][0]["info"];
+                        //$.each(value["ranking"][0]["info"], function(tidx, tv) {
+                        //    tokens.push(tv);
+                        //});
                         //tokens.reverse();
                         var n = tokens.length;
                         $.each(tokens, function(ridx, tv) {
