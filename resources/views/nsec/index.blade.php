@@ -33,6 +33,7 @@
                     <div class="col-md-4">
                         <select id="detection" name="detection" class="form-control form-control-xs">
                             <option value="wcp">WCP Detect</option>
+                            <option value="bert_detector">Bert</option>
                         </select>
                     </div>
                 </div>
