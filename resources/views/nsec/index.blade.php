@@ -165,24 +165,28 @@
 
                     $.each (result["sequences"], function(index, value) {
                         var temp = value["text"];
-                        var tokens = [];
-                        $.each(value["ranking"][0]["info"], function(tidx, tv) {
-                            tokens.push(tv);
-                        });
-                        //tokens.reverse();
-                        var n = tokens.length;
-                        $.each(tokens, function(ridx, tv) {
-                            if (ridx == 0) {
-                                text += temp.substring(0, tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> ";
-                                if (tokens.length == 1) {
-                                    text += temp.substring(tv["pos"]+tv["length"], temp.length);
+                        if ('ranking' in value ) {
+                            var tokens = value["ranking"][0]["info"];
+                            //$.each(value["ranking"][0]["info"], function(tidx, tv) {
+                            //    tokens.push(tv);
+                            //});
+                            //tokens.reverse();
+                            var n = tokens.length;
+                            $.each(tokens, function (ridx, tv) {
+                                if (ridx == 0) {
+                                    text += temp.substring(0, tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> ";
+                                    if (tokens.length == 1) {
+                                        text += temp.substring(tv["pos"] + tv["length"], temp.length);
+                                    }
+                                } else if (ridx == (n - 1)) {
+                                    text += temp.substring(tokens[ridx - 1]["pos"] + tokens[ridx - 1]["length"], tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> " + temp.substring(tv["pos"] + tv["length"], temp.length);
+                                } else {
+                                    text += temp.substring(tokens[ridx - 1]["pos"] + tokens[ridx - 1]["length"], tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> ";
                                 }
-                            } else if (ridx == (n - 1)) {
-                                text += temp.substring(tokens[ridx-1]["pos"]+tokens[ridx-1]["length"], tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> " + temp.substring(tv["pos"]+tv["length"], temp.length);
-                            } else {
-                                text += temp.substring(tokens[ridx-1]["pos"]+tokens[ridx-1]["length"], tv["pos"]) + "<strong class\"badge-xs badge-token\">" + tv["suggestion"] + "</strong> ";
-                            }
-                        })
+                            })
+                        } else {
+                            text += " " + temp;
+                        }
 
                         //text += value["ranking"][0]["correction"];
                         //text += " ";
