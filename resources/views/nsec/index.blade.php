@@ -51,7 +51,7 @@
                     <div class="col-md-4">
                         <select id="ranking" name="ranking" class="form-control form-control-xs">
                             <option value="bert_accurate">Bert Accurate</option>
-                            <option value="bert_fast">Bert Fast (Currently Not Working)</option>
+                            <option value="bert_fast">Bert Fast</option>
                             <option value="xlnet">XLNet (Currently Not Working)</option>
                             <option value="nmt">NMT (Currently Not Working)</option>
                         </select>
