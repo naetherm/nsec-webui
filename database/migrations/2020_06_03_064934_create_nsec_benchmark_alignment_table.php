@@ -15,6 +15,7 @@ class CreateNsecBenchmarkAlignmentTable extends Migration
     {
         Schema::create('nsec_benchmark_alignment', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('benchmark_id');
             $table->foreign('benchmark_id')->references('id')->on('nsec_benchmark')->onDelete('cascade');
             $table->json('alignment');
             $table->timestamps();

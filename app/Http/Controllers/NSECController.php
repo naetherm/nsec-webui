@@ -18,7 +18,6 @@ class NSECController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->tokenizer = WhitespaceAndPunctuationTokenizer();
     }
 
     /**
@@ -39,18 +38,26 @@ class NSECController extends Controller
         Response::json(Input::get('results'));;
     }
 
+    public function addBenchmark() {
+        return view('nsec.create_benchmark');
+    }
+
     public function createBenchmark(Request $request) {
 
         ///TODO(naetherm): Loop through all lines of the uploaded file
         $row = 1;
+        $tokenizer = new \NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer();
+
+        //dd($request);
 
         $name = $request->input('name');
         $language = $request->input('language');
 
         /// TODO(naetherm): Create the benchmark entry, if there is already a benchmark with that name, delete that entry first
-        $entry = NSECBenchmark::where('name', $name)->take(1)->get();
-        if ($entry !== null) {
+        $entry = NSECBenchmark::where('name', $name)->take(1)->first();
+        if ($entry) {
             // Don't forget to remove all the entries in '*_alignment'
+            //dd($entry);
 
             NSECBenchmarkAlignment::where('benchmark_id', $entry->id)->delete();
             $entry->delete();
@@ -63,14 +70,14 @@ class NSECController extends Controller
         // Cache the ID of the nsec benchmark
         $id = $entry->id;
 
-        if (($handle = $request->file('benchmark_file')->openFile()) !== FALSE) {
+        if (($handle = fopen($request->file('benchmark_file')->getRealPath(), 'r')) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, "\t")) !== FALSE) {
                 //$num = count($data);
                 $num = 2; // always only two entries
                 $row++;
 
-                $src = $this->tokenizer($data[0]);
-                $grt = $this->tokenizer($data[1]);
+                $src = $tokenizer->tokenize($data[0]);
+                $grt = $tokenizer->tokenize($data[1]);
 
                 // Calculate alignment
                 $response = Http::post('aligner:6503/v1/aligner/api', [
@@ -87,7 +94,7 @@ class NSECController extends Controller
             fclose($handle);
         }
 
-
+        return view('nsec.index');
     }
 
 

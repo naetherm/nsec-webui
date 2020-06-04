@@ -24,43 +24,28 @@
 
 @section('content')
     <div class="container">
-        <div class="benchmark"><span>Benchmark</span></div>
+        <div class="benchmark"><span>Benchmark Upload</span></div>
         <div class="container">
-            <div class="inline-input">
-                <label class="col-md-4 control-label" for="benchmark"><strong>Benchmark</strong></label>
-                <div class="col-md-4">
-                    <select id="benchmark" name="benchmarketection" class="form-control form-control-xs">
-                        <option value="demo">Demo</option>
-                        <option value="en_tiny">Tiny English</option>
-                    </select>
+            <form action="{{ route('nsec.benchmark_upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <input type="text" name="name" id="name">
+                    <label for="name">Name</label>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row float-right">
-            <div class="col-md-12">
-                <button type="submit" id="bench" formaction="index" class="button button-primary button-block button-shadow button-correct">Bench</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="result-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-2">
-                    <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_sentences">
-                    <div class="knob-label">Correct Sentences (%)</div>
+                <div class="row">
+                    <input type="text" name="language" id="language">
+                    <label for="language">Language</label>
                 </div>
-                <div class="col-2">
-                    <input type="text" value="0" data-height="100" data-width="100" readonly="readonly" id="correct_tokens">
-                    <div class="knob-label">Correct Tokens (%)</div>
+                <div class="row">
+                    <input type="file" name="benchmark_file" id="benchmark_file">
+                    <label for="benchmark_file">File</label>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div id="erroneous_sentences" class="row"></div>
+                <div class="row float-right">
+                    <div class="col-md-12">
+                        <button type="submit" id="bench" class="button button-primary button-block button-shadow button-correct">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection()

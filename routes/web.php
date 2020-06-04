@@ -31,6 +31,12 @@ Route::get('post','BackendController@postRequest');
 Route::get('get','BackendController@getRequest');
 Route::get('postBenchmark','BackendController@postBenchmarkRequest');
 
+Route::get('nsec/benchmark_upload', [
+    'as' => 'nsec.benchmark_upload',
+    'uses' => 'NSECController@addBenchmark'
+]);
+Route::post('/nsec/benchmark_upload', 'NSECController@createBenchmark');
+
 //Route::get('/home', 'HomeController@index')->name('home');
 
 // NSEC-Benchmark Frontend
