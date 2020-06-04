@@ -36,6 +36,7 @@ cd /tmp && \
     make all && \
     make install && \
     echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini && \
+    echo "extension=sqlite3" > /usr/local/etc/php/conf.d/sqlite3.ini && \
     rm -rf /tmp/mongo-php-driver
 
 docker-php-ext-install \
@@ -48,6 +49,7 @@ docker-php-ext-install \
     pdo_dblib \
     pdo_mysql \
     pdo_pgsql \
+    pdo_sqlite \
     xmlrpc \
     zip
 

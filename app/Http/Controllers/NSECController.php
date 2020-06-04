@@ -29,13 +29,35 @@ class NSECController extends Controller
         return view('nsec.index');
     }
 
-    public function benchmark() {
+    public function benchmark(Request $request) {
         // Receive the names of all benchmarks specific for nsec (internal)
-        return view('nsec.benchmark');
+        $benchmarks = NSECBenchmark::all();
+
+        return view('nsec.benchmark', [
+            'benchmarks' => $benchmarks
+        ]);
+    }
+
+    public function evaluateBenchmark(Request $request) {
+        // Retrieve the benchmark
+        $benchmark_name = $request->input('benchmark');
+        $benchmark = NSECBenchmark::where('name', $benchmark_name)->firstOrFail();
+
+        // Retrieve the alignments of the associated (internal) benchmark
+        $benchmark_alignments = NSECBenchmarkAlignment::where('benchmark_id', $benchmark->id)->get();
+
+        // TODO(naetherm): Results ...
+        foreach ($benchmark_alignments as $alignment) {
+            // TODO(naetherm): Evaluate
+        }
+
+        return view('nsec.benchmark_evaluation', [
+            'benchmark' => $benchmark
+        ]);
     }
 
     public function addResults() {
-        Response::json(Input::get('results'));;
+        Response::json(Input::get('results'));
     }
 
     public function addBenchmark() {
@@ -81,14 +103,20 @@ class NSECController extends Controller
 
                 // Calculate alignment
                 $response = Http::post('aligner:6503/v1/aligner/api', [
-                    'groundtruth' => $grt,
-                    'source' => $src,
+                    'groundtruth' => $data[1],
+                    'source' => $data[0],
+                    'groundtruth_tokens' => $grt,
+                    'source_tokens' => $src
                 ]);
 
-                // oush results to nsec_benchmark_alignment table
+                // Push results to nsec_benchmark_alignment table
                 NSECBenchmarkAlignment::create([
                     'benchmark_id' => $id,
-                    'alignment' => $response->json()
+                    'alignment' => $response->json(),
+                    'groundtruth' => $data[1],
+                    'source' => $data[0],
+                    'groundtruth_tokens' => $grt,
+                    'source_tokens' => $src
                 ]);
             }
             fclose($handle);

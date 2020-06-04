@@ -23,32 +23,10 @@
 @endsection()
 
 @section('content')
-    <div class="container">
-        <div class="benchmark"><span>Benchmark</span></div>
-        <div class="container">
-            <div class="inline-input">
-                <label class="col-md-4 control-label" for="benchmark"><strong>Benchmark</strong></label>
-                <div class="col-md-4">
-                    <select id="benchmark" name="benchmarketection" class="form-control form-control-xs">
-                        @foreach ($benchmarks as $bench)
-                        <option value="{{$bench->name}}">{{$bench->name}}</option>
-                        <option value="{{$bench->name}}">{{$bench->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row float-right">
-            <div class="col-md-12">
-                <button type="submit" id="bench" formaction="index" class="button button-primary button-block button-shadow button-correct">Bench</button>
-            </div>
-        </div>
-    </div>
-
     <div class="result-container">
+        <div class="container">
+            <div class="benchmark"><span>Benchmark - {{$benchmark->name}} Results</span></div>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-2">

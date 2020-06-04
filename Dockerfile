@@ -6,7 +6,7 @@ MAINTAINER "Markus Näther <naetherm@informatik.uni-freiburg.de>"
 RUN apk update && apk upgrade
 
 # Install basics
-RUN apk -u add git
+RUN apk -u add git sqlite
 
 # Install PHP extensions
 ADD install_php.sh /usr/sbin/install_php.sh
@@ -27,6 +27,9 @@ RUN composer update --no-interaction --ansi
 RUN composer install --no-interaction --ansi
 
 EXPOSE 8000
+
+# TODO(naetherm): For testing purposes, remove in production because there we are using mysql
+RUN touch database/database.sqlite && php artisan migrate
 
 CMD php artisan serve --host 0.0.0.0
 

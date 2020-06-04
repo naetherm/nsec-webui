@@ -18,6 +18,10 @@ class CreateNsecBenchmarkAlignmentTable extends Migration
             $table->unsignedBigInteger('benchmark_id');
             $table->foreign('benchmark_id')->references('id')->on('nsec_benchmark')->onDelete('cascade');
             $table->json('alignment');
+            $table->string('groundtruth');
+            $table->string('source');
+            $table->json('groundtruth_tokens');
+            $table->json('source_tokens');
             $table->timestamps();
         });
     }
