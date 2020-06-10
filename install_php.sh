@@ -53,6 +53,8 @@ docker-php-ext-install \
     xmlrpc \
     zip
 
+docker-php-ext-enable pdo_sqlite
+
 # Download trusted certs
 mkdir -p /etc/ssl/certs && update-ca-certificates
 

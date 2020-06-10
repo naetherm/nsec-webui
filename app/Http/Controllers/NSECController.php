@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Http;
 use Response;
 use \NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
 
+class ResultContainer {
+    public $detection_precision = 0.0;
+    public $detection_recall = 0.0;
+    public $detection_fscore = 0.0;
+
+    public $correction_precision = 0.0;
+    public $correction_recall = 0.0;
+    public $correction_fscore = 0.0;
+
+    public $num_sentences = 0;
+    public $num_tokens = 0;
+    public $num_erroneous_tokens = 0;
+    public $num_valid_tokens = 0;
+}
+
 class NSECController extends Controller
 {
     /**
@@ -43,12 +58,29 @@ class NSECController extends Controller
         $benchmark_name = $request->input('benchmark');
         $benchmark = NSECBenchmark::where('name', $benchmark_name)->firstOrFail();
 
+        // Cached settings
+        $detector = $request->input('detection');
+        $suggestor = $request->input('suggestion');
+        $ranker = $request->input('ranking');
+
         // Retrieve the alignments of the associated (internal) benchmark
         $benchmark_alignments = NSECBenchmarkAlignment::where('benchmark_id', $benchmark->id)->get();
 
-        // TODO(naetherm): Results ...
+        $benchmark_results = new ResultContainer();
+        $benchmark_results->num_sentences = $benchmark_alignments->count();
+
         foreach ($benchmark_alignments as $alignment) {
-            // TODO(naetherm): Evaluate
+            // TODO(naetherm): Evaluate this @home
+            $benchmark_results->num_tokens += $alignment->groundtruth_tokens->count();
+            $backend_request = new Request();
+            $backend_request->replace([
+                'content' => $alignment->source,
+                'detector' => $detector,
+                'suggestor' => $suggestor,
+                'ranker' => $ranker
+            ]);
+            $results = $this->backendCaller($backend_request);
+
         }
 
         return view('nsec.benchmark_evaluation', [
@@ -70,13 +102,13 @@ class NSECController extends Controller
         $row = 1;
         $tokenizer = new \NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer();
 
-        //dd($request);
+        dd($request);
 
         $name = $request->input('name');
         $language = $request->input('language');
 
         /// TODO(naetherm): Create the benchmark entry, if there is already a benchmark with that name, delete that entry first
-        $entry = NSECBenchmark::where('name', $name)->take(1)->first();
+        $entry = NSECBenchmark::where('name', $name)->firstOrFail();
         if ($entry) {
             // Don't forget to remove all the entries in '*_alignment'
             //dd($entry);
@@ -125,5 +157,19 @@ class NSECController extends Controller
         return view('nsec.index');
     }
 
+
+
+    public function backendCaller(Request $request) {
+        // Call the backend
+        $response = Http::post('nsec:9876/', [
+            'text' => $request->input('sentence'),
+            'detector' => $request->input('detection'),
+            'suggestor' => $request->input('suggestion'),
+            'ranker' => $request->input('ranking')
+        ]);
+
+        // return the evaluation
+        return $response->json();
+    }
 
 }
