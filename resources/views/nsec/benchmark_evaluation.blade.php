@@ -87,8 +87,9 @@
                     var grt_prd_pairs = "";
                     $.each(result["articles"], function(aidx, article) {
                         $.each(article["sentences"], function(sidx, sentence) {
+                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["source"] + "</i></p><br/>";
                             grt_prd_pairs += "<p class=\"result\"><b>" + sentence["groundtruth"] + "</b></p><br/>";
-                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["prediction"]["text"] + "</i></p><br/>";
+                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["prediction"]["text"] + "</i></p><br/><hr/>";
                         })
                     })
                     $("#erroneous_sentences").html(grt_prd_pairs);
