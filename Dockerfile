@@ -1,4 +1,4 @@
-FROM php:alpine
+FROM php:alpine3.10
 
 MAINTAINER "Markus Näther <naetherm@informatik.uni-freiburg.de>"
 
@@ -6,7 +6,8 @@ MAINTAINER "Markus Näther <naetherm@informatik.uni-freiburg.de>"
 RUN apk update && apk upgrade
 
 # Install basics
-RUN apk -u add git sqlite
+RUN apk -u add git sqlite curl
+#python
 
 # Install PHP extensions
 ADD install_php.sh /usr/sbin/install_php.sh
