@@ -30,9 +30,11 @@
                 <label class="col-md-4 control-label" for="benchmark"><strong>Benchmark</strong></label>
                 <div class="col-md-4">
                     <select id="benchmark" name="benchmarketection" class="form-control form-control-xs">
-                        @foreach ($benchmarks as $bench)
-                        <option value="{{$bench->name}}">{{$bench->name}}</option>
-                        @endforeach
+                        @if(!empty($benchmarks))
+                            @foreach ($benchmarks as $bench)
+                            <option value="{{$bench->name}}">{{$bench->name}}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>

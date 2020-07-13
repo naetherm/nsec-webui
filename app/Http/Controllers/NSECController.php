@@ -46,7 +46,8 @@ class NSECController extends Controller
 
     public function benchmark(Request $request) {
         // Receive the names of all benchmarks specific for nsec (internal)
-        $benchmarks = NSECBenchmark::all();
+        //$benchmarks = NSECBenchmark::all();
+        $benchmarks = null;
 
         return view('nsec.benchmark', [
             'benchmarks' => $benchmarks

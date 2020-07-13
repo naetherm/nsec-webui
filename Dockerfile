@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 		cron \
 		nano \
                 mcrypt \
-		nginx \
+                nginx \
 		php7.4-fpm \
 		php7.4-cli \
 		php7.4-gd \
@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y \
 		php7.4-xml \
                 php7.4-sqlite3 \
 		php-mysql \
+                php-sqlite3 \
 		redis-server \
 		nodejs \
                 composer \
@@ -36,10 +37,19 @@ RUN apt-get update && apt-get install -y \
 ADD . /var/www
 WORKDIR /var/www
 
+RUN phpenmod pdo_sqlite 
+#&& a2enmod rewrite
+#RUN echo "extension=pdo_sqlite" >> /etc/php/7.4/cli/php.ini
+#RUN echo "extension=sqlite3"  >> /etc/php/7.4/cli/php.ini
+
+# Migrate all schemes to the sqlite database
 RUN touch database/database.sqlite 
+RUN service nginx restart
 RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache && composer install
 RUN ls ./
+RUN php artisan config:clear
 RUN php artisan migrate
+# Fill with information
 RUN php artisan db:seed
 
 
