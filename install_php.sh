@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apk add bzip2 file re2c freetds freetype icu libintl libldap libjpeg libmcrypt libpng libpq libwebp libzip
+apk add bzip2 file re2c freetds freetype icu libintl libldap libjpeg libmcrypt libpng libpq libwebp libzip 
 
 TMP="autoconf \
     bzip2-dev \
@@ -36,8 +36,12 @@ cd /tmp && \
     make all && \
     make install && \
     echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini && \
-    echo "extension=sqlite3" > /usr/local/etc/php/conf.d/sqlite3.ini && \
+    echo "extension=pdo_sqlite.so" > /usr/local/etc/php/conf.d/sqlite3.ini && \
     rm -rf /tmp/mongo-php-driver
+
+#echo "PHP Path:"
+#ls /usr/local/lib/php/extensions/no-debug-non-zts-20190902/
+#echo "END PHP Path"
 
 docker-php-ext-install \
     bz2 \
@@ -54,6 +58,10 @@ docker-php-ext-install \
     zip
 
 docker-php-ext-enable pdo_sqlite
+
+echo "PHP Path:"
+ls /usr/local/lib/php/extensions/no-debug-non-zts-20190902/
+echo "END PHP Path"
 
 # Download trusted certs
 mkdir -p /etc/ssl/certs && update-ca-certificates

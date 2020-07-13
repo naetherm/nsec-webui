@@ -1,37 +1,46 @@
-FROM php:alpine3.10
+FROM ubuntu:20.04
+MAINTAINER "Markus Näther <naether.markus@gmail.com>"
 
-MAINTAINER "Markus Näther <naetherm@informatik.uni-freiburg.de>"
+ENV HOME /root
+ENV DEBIAN_FRONTEND noninteractive
 
-# Upgrade apk
-RUN apk update && apk upgrade
+# Use Supervisor to run and manage all other services
+CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
-# Install basics
-RUN apk -u add git sqlite curl
-#python
+# Install required packages
+RUN apt-get update && apt-get install -y \
+		curl \
+		libcurl4 \
+		python \
+		cron \
+		nano \
+                mcrypt \
+		nginx \
+		php7.4-fpm \
+		php7.4-cli \
+		php7.4-gd \
+		php7.4-sqlite \
+		php7.4-curl \
+		php7.4-opcache \
+		php7.4-mbstring \
+		php7.4-zip \
+		php7.4-xml \
+                php7.4-sqlite3 \
+		php-mysql \
+		redis-server \
+		nodejs \
+                composer \
+		npm
 
-# Install PHP extensions
-ADD install_php.sh /usr/sbin/install_php.sh
-ENV XDEBUG_VERSION 2.9.4
-RUN /usr/sbin/install_php.sh
 
-RUN mkdir -p /etc/ssl/certs && update-ca-certificates
-
-ADD install_nodes.sh /usr/sbin/install_nodes.sh
-RUN /usr/sbin/install_nodes.sh
-
-COPY . /var/www
+ADD . /var/www
 WORKDIR /var/www
 
-RUN mkdir -p storage/framework
-RUN mkdir storage/framework/sessions storage/framework/views storage/framework/cache
-RUN composer update --no-interaction --ansi
-RUN composer install --no-interaction --ansi
+RUN touch database/database.sqlite 
+RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache && composer install
+RUN ls ./
+RUN php artisan migrate
+RUN php artisan db:seed
 
-EXPOSE 8000
-
-# TODO(naetherm): For testing purposes, remove in production because there we are using mysql
-RUN touch database/database.sqlite && php artisan migrate
 
 CMD php artisan serve --host 0.0.0.0
-
-#HEALTHCHECK --interval=1m CMD curl -f http://localhost/ || exit 1
