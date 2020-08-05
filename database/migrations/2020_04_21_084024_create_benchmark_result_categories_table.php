@@ -15,6 +15,7 @@ class CreateBenchmarkResultCategoriesTable extends Migration
     {
         Schema::create('benchmark_result_categories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('benchmark_results_id');
             $table->foreign('benchmark_results_id')->references('id')->on('benchmark_results')->onDelete('cascade');
             $table->timestamps();
         });

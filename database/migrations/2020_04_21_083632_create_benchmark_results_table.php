@@ -15,6 +15,9 @@ class CreateBenchmarkResultsTable extends Migration
     {
         Schema::create('benchmark_results', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('benchmark_id');
+            $table->unsignedBigInteger('program_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('benchmark_id')->references('id')->on('benchmarks')->onDelete('cascade');
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

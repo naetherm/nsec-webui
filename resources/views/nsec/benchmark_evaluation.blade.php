@@ -23,67 +23,10 @@
 @endsection()
 
 @section('content')
-    <div class="container">
-        <div class="benchmark"><span>Benchmark</span></div>
-        <div class="container">
-            <div class="inline-input">
-                <label class="col-md-4 control-label" for="benchmark"><strong>Benchmark</strong></label>
-                <div class="col-md-4">
-                    <select id="benchmark" name="benchmarketection" class="form-control form-control-xs">
-                        @if(!empty($benchmarks))
-                            @foreach ($benchmarks as $bench)
-                            <option value="{{$bench->name}}">{{$bench->name}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="container text-left">
-            <div class="header"><span>Settings</span></div>
-            <div class="content" style="display: none">
-                <div class="inline-input">
-                    <label class="col-md-4 control-label" for="detection"><strong>Detection Method</strong></label>
-                    <div class="col-md-4">
-                        <select id="detection" name="detection" class="form-control form-control-xs">
-                            <option value="wcp">WCP Detect</option>
-                            <option value="bert_detector">Bert</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="inline-input">
-                    <label class="col-md-4 control-label" for="detection"><strong>Suggestion Method</strong></label>
-                    <div class="col-md-4">
-                        <select id="suggestion" name="suggestion" class="form-control form-control-xs">
-                            <option value="norvig">Norvig</option>
-                            <option value="passthrough">Passthrough</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="inline-input">
-                    <label class="col-md-4 control-label" for="detection"><strong>Ranking Method</strong></label>
-                    <div class="col-md-4">
-                        <select id="ranking" name="ranking" class="form-control form-control-xs">
-                            <option value="bert_accurate">Bert Accurate</option>
-                            <option value="bert_fast">Bert Fast</option>
-                            <option value="xlnet">XLNet (Currently Not Working)</option>
-                            <option value="nmt">NMT (Currently Not Working)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row float-right">
-            <div class="col-md-12">
-                <button type="submit" id="bench" formaction="index" class="button button-primary button-block button-shadow button-correct">Bench</button>
-            </div>
-        </div>
-    </div>
-
     <div class="result-container">
+        <div class="container">
+            <div class="benchmark"><span>Benchmark - {{$benchmark->name}} Results</span></div>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-2">
@@ -106,24 +49,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="{{ asset('jquery-knob/jquery.knob.min.js') }}"></script>
     <script type="text/javascript">
-        $(".header").click(function () {
-            $header = $(this);
-            //getting the next element
-            $content = $header.next();
-            //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-            $content.slideToggle(500, function () {
-                //execute this after slideToggle is done
-                //change text of header based on visibility of content div
-                $header.text(function () {
-                    //change text based on condition
-                    return $content.is(":visible") ? "Settings" : "Settings";
-                });
-            });
-        });
         $(".result-container").fadeOut('fast');
         $("#correct_tokens").knob({'min':0, 'max':100});
         $("#correct_sentences").knob({'min':0, 'max':100});
-
         $("#bench").click(function(e) {
             var editor_content = {
                 'benchmark': $('#benchmark').val(),
@@ -159,8 +87,9 @@
                     var grt_prd_pairs = "";
                     $.each(result["articles"], function(aidx, article) {
                         $.each(article["sentences"], function(sidx, sentence) {
+                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["source"] + "</i></p><br/>";
                             grt_prd_pairs += "<p class=\"result\"><b>" + sentence["groundtruth"] + "</b></p><br/>";
-                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["prediction"]["text"] + "</i></p><br/>";
+                            grt_prd_pairs += "<p class=\"result\"><i>" + sentence["prediction"]["text"] + "</i></p><br/><hr/>";
                         })
                     })
                     $("#erroneous_sentences").html(grt_prd_pairs);

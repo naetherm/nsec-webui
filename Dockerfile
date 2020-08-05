@@ -33,7 +33,6 @@ RUN apt-get update && apt-get install -y \
                 composer \
                 npm
 
-
 ADD . /var/www
 WORKDIR /var/www
 
@@ -44,6 +43,7 @@ RUN phpenmod pdo_sqlite
 
 # Migrate all schemes to the sqlite database
 RUN touch database/database.sqlite
+
 RUN service nginx restart
 RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache && composer install
 RUN ls ./
@@ -51,6 +51,5 @@ RUN php artisan config:clear
 # TODO: RUN php artisan migrate
 # Fill with information
 # TODO: RUN php artisan db:seed
-
 
 CMD php artisan serve --host 0.0.0.0
